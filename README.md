@@ -1,8 +1,8 @@
-##Guide
+#Guide
 Guide is an experimental game/simulation where you have a species of organisms
 and your goal is to get it to the top of the food chain by editing its genome
 
-#features to implement:
+##Features to implement:
 - [ ] Reproduction
 - [ ] Heredity
 - [ ] Genetic mutations
