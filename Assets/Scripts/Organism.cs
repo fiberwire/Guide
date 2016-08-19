@@ -11,14 +11,6 @@ public class Organism : MonoBehaviour {
     //gene count
     public int genome;
 
-    private int _genome {
-        get {
-            genome = genes.Count;
-            return genome;
-        }
-    }
-
-
     //base stats
     public float baseMoveSpeed;
     public float baseSplitChance;
@@ -54,17 +46,13 @@ public class Organism : MonoBehaviour {
 
     }
 
-    // Update is called once per frame
-    void Update() {
-        transform.localScale = new Vector2(size, size);
-    }
-
     //apply genetic bonuses, whatever they may be
     void applyGenetics(List<Gene> genes) {
         genes.ForEach((gene) => {
             gene.apply();
         });
-        genome = _genome;
+        genome = genes.Count;
+        transform.localScale = new Vector2(size, size);
     }
 
     //recalculate genetic bonuses when they change
@@ -94,8 +82,8 @@ public class Organism : MonoBehaviour {
         while (true) {
             //choose random target location
             Vector2 target = new Vector2(
-            Mathf.Clamp(transform.position.x + Random.Range(-moveSpeed, moveSpeed), -60f, 60f),
-            Mathf.Clamp(transform.position.y + Random.Range(-moveSpeed, moveSpeed), -33f, 33f)
+            Mathf.Clamp(transform.position.x + Random.Range(-Mathf.Pow(moveSpeed, 1 / 3), Mathf.Pow(moveSpeed, 1 / 4)), -60f, 60f),
+            Mathf.Clamp(transform.position.y + Random.Range(-Mathf.Pow(moveSpeed, 1 / 3), Mathf.Pow(moveSpeed, 1 / 4)), -33f, 33f)
             );
             //time since target chosen
             var time = Time.realtimeSinceStartup;
@@ -103,8 +91,8 @@ public class Organism : MonoBehaviour {
             //move to target
             while (Vector2.Distance(transform.position, target) > Random.Range(0.05f, 0.5f)) {
                 transform.position = new Vector2(
-                        Mathf.Lerp(transform.position.x, target.x, Mathf.Pow(moveSpeed, -4) * Time.deltaTime * Random.Range(0.5f, 1.5f)),
-                        Mathf.Lerp(transform.position.y, target.y, Mathf.Pow(moveSpeed, -4) * Time.deltaTime * Random.Range(0.5f, 1.5f))
+                        Mathf.Lerp(transform.position.x, target.x, moveSpeed * Time.deltaTime * Random.Range(0.5f, 1.5f)),
+                        Mathf.Lerp(transform.position.y, target.y, moveSpeed * Time.deltaTime * Random.Range(0.5f, 1.5f))
                     );
 
                 //give up on target if it takes too long to get there
@@ -126,8 +114,6 @@ public class Organism : MonoBehaviour {
             while (!reproduce) {
                 roll = Random.Range(0f, 1000f);
                 reproduce = roll <= splitChance;
-                //Debug.Log(roll);
-                //Debug.Log(reproduce);
 
                 yield return new WaitForSeconds(1);
             }
