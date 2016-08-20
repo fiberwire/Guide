@@ -69,17 +69,23 @@ public class Organism : MonoBehaviour {
         geneticSize = 0;
     }
 
+    /*
+     * Movement works like this:
+     * organism has a main target that it's trying to reach
+     * it picks an intermediate target randomly
+     * it checks if that target is closer to its main target than its current position
+     * if it is, the organism moves towards its intermediate target until it reaches it, 
+     * then it chooses another intermediate target, and moves towards it,
+     * repeat until the organism arrives at its main target
+     */
     IEnumerator move() {
         while (true) {
-            var target = getTarget();
-
-            //time when target is chosen
-            var time = Time.realtimeSinceStartup;
-
-            var move = randomTarget();
+            var target = getTarget(); //overall goal of movement
+            var move = randomTarget(); //intermediate goal on way to target
+            var time = Time.realtimeSinceStartup; //time when target is chosen
 
             //if move is closer to target than transform.position
-            if (Vector2.Distance(move, target) < Vector2.Distance(transform.position, target)) {
+            if ((move - target).sqrMagnitude < ((Vector2)transform.position - target).sqrMagnitude) {
                 //move to move
                 while (Vector2.Distance(transform.position, move) > Random.Range(0.05f, 0.5f)) {
 
@@ -104,9 +110,9 @@ public class Organism : MonoBehaviour {
     }
 
     Vector2 getTarget() {
-        if (Random.Range(1, 100) > 90) {
-            return new Vector2(10, 10);
-        }
+        //will eventually return a target of interest (such as food, or a potential mate), or a random target if there are none in range
+        //range will be determined by a stat, which will be increased by genes
+        //a better range stat will make for a more fit organism because it will be able to search greater areas for food/mates
         return randomTarget();
     }
 
