@@ -13,11 +13,11 @@ namespace Assets.Scripts.Genes {
         float moveSpeed;
         
         public Big(Organism org) {
-            size = org.geneticSize.absDiff(Mathf.Max(0.1f, org.geneticSize * Random.Range(1f, 1.05f)));
-            moveSpeed = org.geneticMoveSpeed * Random.Range(0f, 0.01f);
+            size = org.stats.geneticSize.absDiff(Mathf.Max(0.1f, org.stats.geneticSize * Random.Range(1f, 1.05f)));
+            moveSpeed = org.stats.geneticMoveSpeed * Random.Range(0f, 0.01f);
             apply = () => {
-                org.geneticSize += size;
-                org.geneticMoveSpeed -= moveSpeed;
+                org.stats.geneticSize += size;
+                org.stats.geneticMoveSpeed -= moveSpeed;
             };
         }
     }

@@ -6,95 +6,25 @@ using Assets.Scripts.Genes;
 
 public class Organism : MonoBehaviour {
 
-    public enum LifeStage { Young, Adult, Old }
-
-    public Genome genome;
-    public delegate void GenomeChanged(Genome gen);
-    public event GenomeChanged genomeChanged;
-    private SpriteRenderer sr;
-
-    public int genomeCount;
-
     //stats
     public float health;
     public float energy;
-    public float age;
-    public LifeStage stage;
 
+    public Genome genome;
+    public Stats stats;
+    public delegate void GenomeChanged(Genome gen);
+    public event GenomeChanged genomeChanged;
 
-    //base stats
-    public float baseMaxHealth;
-    public float baseLongevity;
-    public float baseEnergyReq;
-    public float baseMoveSpeed;
-    public float baseSplitChance;
-    public float baseSize;
-
-    //life stage colors
-    public Color young;
-    public Color adult;
-    public Color old;
-
-
-    //genetic bonuses
-    public float geneticMaxHealth;
-    public float geneticLongevity;
-    public float geneticEnergyReq;
-    public float geneticMoveSpeed;
-    public float geneticSplitChance;
-    public float geneticSize;
-
-    //final stats properties
-    public float maxHealth { get { return baseMaxHealth + geneticMaxHealth; } }
-    public float longevity { get { return baseLongevity + geneticLongevity; } }
-    public float energyReq { get { return baseEnergyReq + geneticEnergyReq; } }
-    public float moveSpeed { get { return baseMoveSpeed + geneticMoveSpeed; } }
-    public float splitChance { get { return baseSplitChance + geneticSplitChance; } }
-    public float size { get { return baseSize + geneticSize; } }
-
+    public int genomeCount;
 
     // Use this for initialization
     void Start() {
-        sr = GetComponent<SpriteRenderer>();
-
-        stage = LifeStage.Young;
 
         if (genome == null) genome = new Genome();
-        genomeChanged += applyGenetics;
+        genomeChanged += stats.applyGenetics;
 
         StartCoroutine(move());
         StartCoroutine(addGenes());
-        StartCoroutine(Age());
-    }
-
-    IEnumerator Age() {
-        while (true) {
-            age += 1;
-
-            switch (stage) {
-                case LifeStage.Young:
-                    var t = age / (longevity / 3);
-                    sr.color = new Color(
-                        Mathf.Lerp(young.r, adult.r, t),
-                        Mathf.Lerp(young.g, adult.g, t),
-                        Mathf.Lerp(young.b, adult.b, t)
-                    );
-                    if (age / longevity > 1f / 3f) stage = LifeStage.Adult;
-                    break;
-                case LifeStage.Adult:
-                    if (age / longevity > 2f / 3f) stage = LifeStage.Old;
-                    break;
-                case LifeStage.Old:
-                    t = (age - (longevity * 2/3)) / (longevity/3);
-                    sr.color = new Color(
-                        Mathf.Lerp(adult.r, old.r, t),
-                        Mathf.Lerp(adult.g, old.g, t),
-                        Mathf.Lerp(adult.b, old.b, t)
-                    );
-                    break;
-            }
-            yield return new WaitForSeconds(1);
-        }
     }
 
     IEnumerator addGenes() {
@@ -110,24 +40,6 @@ public class Organism : MonoBehaviour {
     public void addGene(Gene g) {
         genome.Add(g);
         genomeChanged(genome);
-    }
-
-    //apply genetic bonuses, whatever they may be
-    void applyGenetics(Genome gen) {
-        resetGenetics();
-
-        foreach (var g in gen.genes) {
-            g.apply();
-        }
-
-        transform.localScale = new Vector2(size, size);
-    }
-
-    //zero out genetic bonuses
-    private void resetGenetics() {
-        geneticMoveSpeed = 0;
-        geneticSplitChance = 0;
-        geneticSize = 0;
     }
 
     /*
@@ -165,8 +77,8 @@ public class Organism : MonoBehaviour {
 
     void MoveTowards(Vector2 target) {
         transform.position = new Vector2(
-                            Mathf.Lerp(transform.position.x, target.x, moveSpeed * Time.deltaTime * Random.Range(0.5f, 1.5f)),
-                            Mathf.Lerp(transform.position.y, target.y, moveSpeed * Time.deltaTime * Random.Range(0.5f, 1.5f))
+                            Mathf.Lerp(transform.position.x, target.x, stats.moveSpeed * Time.deltaTime * Random.Range(0.5f, 1.5f)),
+                            Mathf.Lerp(transform.position.y, target.y, stats.moveSpeed * Time.deltaTime * Random.Range(0.5f, 1.5f))
                         );
     }
 
@@ -180,10 +92,10 @@ public class Organism : MonoBehaviour {
     Vector2 randomTarget() {
         return new Vector2(
             Mathf.Clamp(
-                transform.position.x + Random.Range(-moveSpeed, moveSpeed),
+                transform.position.x + Random.Range(-stats.moveSpeed, stats.moveSpeed),
                 -60f, 60f),
             Mathf.Clamp(
-                transform.position.y + Random.Range(-moveSpeed, moveSpeed),
+                transform.position.y + Random.Range(-stats.moveSpeed, stats.moveSpeed),
                 -33f, 33f)
             );
     }

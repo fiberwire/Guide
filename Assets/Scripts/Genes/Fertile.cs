@@ -9,10 +9,10 @@ namespace Assets.Scripts.Genes {
         float splitChance;
 
         public Fertile(Organism org) {
-            splitChance = org.geneticSplitChance.absDiff(Mathf.Max(1, org.geneticSplitChance * Random.Range(1f, 1.01f)));
+            splitChance = org.stats.geneticSplitChance.absDiff(Mathf.Max(1, org.stats.geneticSplitChance * Random.Range(1f, 1.01f)));
 
             apply = () => {
-                org.geneticSplitChance += splitChance;
+                org.stats.geneticSplitChance += splitChance;
             };
         }
     }
