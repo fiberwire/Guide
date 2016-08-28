@@ -9,6 +9,8 @@ public class Aging : MonoBehaviour {
     public Stats stats;
     private SpriteRenderer sr;
 
+    public float growth, decay;
+
     public LifeStage stage;
     public float age;
 
@@ -23,6 +25,7 @@ public class Aging : MonoBehaviour {
         stage = LifeStage.Young;
         StartCoroutine(Age());
         StartCoroutine(AgeColor());
+        StartCoroutine(updateGrowthAndDecay());
     }
 
     IEnumerator Age() {
@@ -65,6 +68,14 @@ public class Aging : MonoBehaviour {
                     );
                     break;
             }
+            yield return null;
         }
     }
+
+    IEnumerator updateGrowthAndDecay() {
+        growth = age / (stats.longevity / 3);
+        decay = (age - (stats.longevity * 2 / 3)) / (stats.longevity / 3);
+        yield return null;
+    }
+
 }
