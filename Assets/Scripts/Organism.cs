@@ -20,25 +20,10 @@ public class Organism : MonoBehaviour {
     // Use this for initialization
     void Start() {
 
-        if (genome == null) genome = new Genome();
+        if (genome == null) genome = new Genome(this);
         genomeChanged += stats.applyGenetics;
 
         StartCoroutine(move());
-        StartCoroutine(addGenes());
-    }
-
-    IEnumerator addGenes() {
-        while (true) {
-            genomeCount = genome.Count;
-            addGene(new Fast(this));
-            addGene(new Fertile(this));
-            addGene(new Big(this));
-            yield return new WaitForSeconds(1f);
-        }
-    }
-
-    public void addGene(Gene g) {
-        genome.Add(g);
         genomeChanged(genome);
     }
 

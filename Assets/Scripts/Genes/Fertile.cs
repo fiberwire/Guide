@@ -8,7 +8,7 @@ namespace Assets.Scripts.Genes {
 
         float splitChance;
 
-        public Fertile(Organism org) {
+        public Fertile(Organism org, int magnitude) {
             splitChance = org.stats.geneticSplitChance.absDiff(Mathf.Max(1, org.stats.geneticSplitChance * Random.Range(1f, 1.01f)));
 
             apply = () => {

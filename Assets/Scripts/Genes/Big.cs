@@ -12,7 +12,7 @@ namespace Assets.Scripts.Genes {
         float maxHealth; //increase max health once it is added as a stat
         float moveSpeed;
         
-        public Big(Organism org) {
+        public Big(Organism org, int magnitude) {
             size = org.stats.geneticSize.absDiff(Mathf.Max(0.1f, org.stats.geneticSize * Random.Range(1f, 1.05f)));
             moveSpeed = org.stats.geneticMoveSpeed * Random.Range(0f, 0.01f);
             apply = () => {
