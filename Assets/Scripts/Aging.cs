@@ -73,9 +73,22 @@ public class Aging : MonoBehaviour {
     }
 
     IEnumerator updateGrowthAndDecay() {
-        growth = age / (stats.longevity / 3);
-        decay = (age - (stats.longevity * 2 / 3)) / (stats.longevity / 3);
-        yield return null;
+        while (true) {
+            if (stage == LifeStage.Young) {
+                growth = age / (stats.longevity / 3f);
+            } else {
+                growth = 1f;
+            }
+
+            if (stage == LifeStage.Old) {
+                decay = (age - (stats.longevity * 2f / 3f)) / (stats.longevity / 3f);
+            } else {
+                decay = 0f;
+            }
+            
+            
+            yield return null;
+        }
     }
 
 }
