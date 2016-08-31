@@ -65,6 +65,17 @@ public class Stats : MonoBehaviour {
         }
     }
 
+    void Start() {
+        StartCoroutine(applyStats());
+    }
+
+    IEnumerator applyStats() {
+        while (true) {
+            transform.localScale = new Vector2(size, size);
+            yield return null;
+        }
+    }
+
     //apply genetic bonuses, whatever they may be
     public void applyGenetics(Genome gen) {
         resetGenetics();
@@ -72,8 +83,6 @@ public class Stats : MonoBehaviour {
         foreach (var g in gen.genes) {
             g.apply();
         }
-
-        transform.localScale = new Vector2(size, size);
     }
 
     //zero out genetic bonuses
