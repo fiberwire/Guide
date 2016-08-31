@@ -5,14 +5,12 @@ public class Stats : MonoBehaviour {
 
     public Aging aging;
 
-    
-
     //base stats
     public float baseMaxHealth;
     public float baseLongevity;
     public float baseEnergyReq;
     public float baseMoveSpeed;
-    public float baseSplitChance;
+    public float baseReproductionRate;
     public float baseSize;
     public float baseInitialMaturity; //represents the minimum starting growthFactor
 
@@ -21,7 +19,7 @@ public class Stats : MonoBehaviour {
     public float geneticLongevity;
     public float geneticEnergyReq;
     public float geneticMoveSpeed;
-    public float geneticSplitChance;
+    public float geneticReproductionRate;
     public float geneticSize;
     public float geneticInitialMaturity;
 
@@ -42,7 +40,7 @@ public class Stats : MonoBehaviour {
     public float longevity { get { return baseLongevity + geneticLongevity; } }
     public float energyReq { get { return baseEnergyReq + geneticEnergyReq; } }
     public float moveSpeed { get { return baseMoveSpeed + geneticMoveSpeed; } }
-    public float splitChance { get { return baseSplitChance + geneticSplitChance; } }
+    public float reproductionRate { get { return baseReproductionRate + geneticReproductionRate; } }
     public float size { get { return (baseSize + geneticSize) * (sizeGrowthFactor - sizeDecayFactor); } }
     public float sizeGrowthFactor {
         get {
@@ -81,7 +79,7 @@ public class Stats : MonoBehaviour {
     //zero out genetic bonuses
     private void resetGenetics() {
         geneticMoveSpeed = 0;
-        geneticSplitChance = 0;
+        geneticReproductionRate = 0;
         geneticSize = 0;
     }
 
