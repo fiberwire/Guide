@@ -9,7 +9,7 @@ public class Genome {
 
     public Genome(Organism org) {
         chromosomes = new List<Chromosome>();
-        chromosomes.Add(Chromosome.RandomChromosome(org));
+        chromosomes.Add(Chromosome.RandomChromosome(org, 500));
     }
 
     public int Count {
