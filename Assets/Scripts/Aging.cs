@@ -85,8 +85,6 @@ public class Aging : MonoBehaviour {
             } else {
                 decay = 0f;
             }
-            
-            
             yield return null;
         }
     }
