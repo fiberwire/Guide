@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System;
+
 
 public static class ExtensionMethods {
 
@@ -25,9 +25,28 @@ public static class ExtensionMethods {
     }
 
     //perform an action x times, passing the index to the action
-    public static void times(this int x, Action<int> closure) {
+    public static void times(this int x, System.Action<int> closure) {
         for (int i = 0; i < x; i++) {
             closure(i);
         }
+    }
+
+    public static string random(this string[] strings) {
+        return strings[Random.Range(0, strings.Length-1)];
+    }
+
+    public static List<string> Substrings(this string str) {
+        var subs = new List<string>();
+
+        for (var i = 1; i <= str.Length; i++) {
+            var sub = str.Substring(0, i);
+            subs.Add(sub);
+        }
+        return subs;
+    }
+
+    public static int countOccurences(this string seq, string word) {
+        int count = (seq.Length - seq.Replace(word, "").Length) / word.Length;
+        return count;
     }
 }

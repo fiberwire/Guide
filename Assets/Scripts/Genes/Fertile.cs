@@ -6,13 +6,13 @@ using UnityEngine;
 namespace Assets.Scripts.Genes {
     class Fertile : Gene {
 
-        float splitChance;
+        float reproductionRate;
 
-        public Fertile(Organism org) {
-            splitChance = org.stats.geneticSplitChance.absDiff(Mathf.Max(1, org.stats.geneticSplitChance * Random.Range(1f, 1.01f)));
+        public Fertile(Organism org, int magnitude) {
+            reproductionRate = org.genetics.reproductionRate.absDiff(Mathf.Max(1, org.genetics.reproductionRate * Random.Range(1f, 1.01f)) * magnitude);
 
             apply = () => {
-                org.stats.geneticSplitChance += splitChance;
+                org.genetics.reproductionRate += reproductionRate;
             };
         }
     }

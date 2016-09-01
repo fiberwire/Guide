@@ -7,9 +7,9 @@ using System.Text;
 public class Genome {
     public List<Chromosome> chromosomes;
 
-    public Genome() {
+    public Genome(Organism org) {
         chromosomes = new List<Chromosome>();
-        chromosomes.Add(new Chromosome());
+        chromosomes.Add(Chromosome.RandomChromosome(org, 50));
     }
 
     public int Count {
@@ -26,15 +26,13 @@ public class Genome {
         }
     }
 
-    public void Add(Gene gene) {
-        int i = Random.Range(0, chromosomes.Count - 1);
-
-        if (chromosomes[i].Count < 50) {
-            chromosomes[i].Add(gene);
-        } else if (chromosomes.Count < 50) {
-            chromosomes.Add(new Chromosome());
+    public string sequence {
+        get {
+            var list = (from c in chromosomes select c.sequence).ToList();
+            var seq = "";
+            foreach (var s in list) seq += s;
+            return seq;
         }
-
     }
 
     //get a random half of the genome, for reproduction purposes
@@ -66,8 +64,8 @@ public class Genome {
         return equal;
     }
 
-    public Genome Clone() {
-        return new Genome {
+    public Genome Clone(Organism org) {
+        return new Genome(org) {
             chromosomes = chromosomes
         };
     }
