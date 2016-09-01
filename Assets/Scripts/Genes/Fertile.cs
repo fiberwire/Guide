@@ -9,10 +9,10 @@ namespace Assets.Scripts.Genes {
         float reproductionRate;
 
         public Fertile(Organism org, int magnitude) {
-            reproductionRate = org.stats.geneticReproductionRate.absDiff(Mathf.Max(1, org.stats.geneticReproductionRate * Random.Range(1f, 1.01f)) * magnitude);
+            reproductionRate = org.genetics.reproductionRate.absDiff(Mathf.Max(1, org.genetics.reproductionRate * Random.Range(1f, 1.01f)) * magnitude);
 
             apply = () => {
-                org.stats.geneticReproductionRate += reproductionRate;
+                org.genetics.reproductionRate += reproductionRate;
             };
         }
     }

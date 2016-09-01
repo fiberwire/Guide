@@ -9,9 +9,9 @@ namespace Assets.Scripts.Genes {
         float moveSpeed;
 
         public Fast(Organism org, int magnitude) {
-            moveSpeed = org.stats.geneticMoveSpeed.absDiff(Mathf.Max(1, org.stats.geneticMoveSpeed * Random.Range(1f, 1.02f)) * magnitude);
+            moveSpeed = org.genetics.moveSpeed.absDiff(Mathf.Max(1, org.genetics.moveSpeed * Random.Range(1f, 1.02f)) * magnitude);
             apply = () => {
-                org.stats.geneticMoveSpeed += moveSpeed;
+                org.genetics.moveSpeed += moveSpeed;
             };
         }
     }

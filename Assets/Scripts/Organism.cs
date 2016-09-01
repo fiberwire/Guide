@@ -12,6 +12,7 @@ public class Organism : MonoBehaviour {
 
     public Genome genome;
     public Stats stats;
+    public Genetics genetics;
     public delegate void GenomeChanged(Genome gen);
     public event GenomeChanged genomeChanged;
 
@@ -21,7 +22,7 @@ public class Organism : MonoBehaviour {
     void Start() {
 
         if (genome == null) genome = new Genome(this);
-        genomeChanged += stats.applyGenetics;
+        genomeChanged += genetics.apply;
 
         StartCoroutine(move());
         genomeChanged(genome);
@@ -62,8 +63,8 @@ public class Organism : MonoBehaviour {
 
     void MoveTowards(Vector2 target) {
         transform.position = new Vector2(
-                            Mathf.Lerp(transform.position.x, target.x, stats.moveSpeed * Time.deltaTime * Random.Range(0.5f, 1.5f)),
-                            Mathf.Lerp(transform.position.y, target.y, stats.moveSpeed * Time.deltaTime * Random.Range(0.5f, 1.5f))
+                            Mathf.Lerp(transform.position.x, target.x, stats.MoveSpeed * Time.deltaTime * Random.Range(0.5f, 1.5f)),
+                            Mathf.Lerp(transform.position.y, target.y, stats.MoveSpeed * Time.deltaTime * Random.Range(0.5f, 1.5f))
                         );
     }
 
@@ -77,10 +78,10 @@ public class Organism : MonoBehaviour {
     Vector2 randomTarget() {
         return new Vector2(
             Mathf.Clamp(
-                transform.position.x + Random.Range(-stats.moveSpeed, stats.moveSpeed),
+                transform.position.x + Random.Range(-stats.MoveSpeed, stats.MoveSpeed),
                 -60f, 60f),
             Mathf.Clamp(
-                transform.position.y + Random.Range(-stats.moveSpeed, stats.moveSpeed),
+                transform.position.y + Random.Range(-stats.MoveSpeed, stats.MoveSpeed),
                 -33f, 33f)
             );
     }

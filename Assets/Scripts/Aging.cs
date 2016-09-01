@@ -34,10 +34,10 @@ public class Aging : MonoBehaviour {
 
             switch (stage) {
                 case LifeStage.Young:
-                    if (age / stats.longevity > 1f / 3f) stage = LifeStage.Adult;
+                    if (age / stats.Longevity > 1f / 3f) stage = LifeStage.Adult;
                     break;
                 case LifeStage.Adult:
-                    if (age / stats.longevity > 2f / 3f) stage = LifeStage.Old;
+                    if (age / stats.Longevity > 2f / 3f) stage = LifeStage.Old;
                     break;
                 case LifeStage.Old:
                     break;
@@ -50,7 +50,7 @@ public class Aging : MonoBehaviour {
         while (true) {
             switch (stage) {
                 case LifeStage.Young:
-                    var t = age / (stats.longevity / 3);
+                    var t = age / (stats.Longevity / 3);
                     sr.color = new Color(
                         Mathf.Lerp(young.r, adult.r, t),
                         Mathf.Lerp(young.g, adult.g, t),
@@ -60,7 +60,7 @@ public class Aging : MonoBehaviour {
                 case LifeStage.Adult:
                     break;
                 case LifeStage.Old:
-                    t = (age - (stats.longevity * 2 / 3)) / (stats.longevity / 3);
+                    t = (age - (stats.Longevity * 2 / 3)) / (stats.Longevity / 3);
                     sr.color = new Color(
                         Mathf.Lerp(adult.r, old.r, t),
                         Mathf.Lerp(adult.g, old.g, t),
@@ -75,13 +75,13 @@ public class Aging : MonoBehaviour {
     IEnumerator updateGrowthAndDecay() {
         while (true) {
             if (stage == LifeStage.Young) {
-                growth = age / (stats.longevity / 3f);
+                growth = age / (stats.Longevity / 3f);
             } else {
                 growth = 1f;
             }
 
             if (stage == LifeStage.Old) {
-                decay = (age - (stats.longevity * 2f / 3f)) / (stats.longevity / 3f);
+                decay = (age - (stats.Longevity * 2f / 3f)) / (stats.Longevity / 3f);
             } else {
                 decay = 0f;
             }
