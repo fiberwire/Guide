@@ -6,6 +6,8 @@ using Assets.Scripts.Genes;
 
 public class Organism : MonoBehaviour {
 
+    GuideCamera cam;
+
     //stats
     public float maxHealth;
     public float health;
@@ -24,6 +26,7 @@ public class Organism : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        cam = Camera.main.GetComponent<GuideCamera>();
 
         if (genome == null) genome = new Genome(this);
         genomeChanged += genetics.apply;
@@ -83,10 +86,10 @@ public class Organism : MonoBehaviour {
         return new Vector2(
             Mathf.Clamp(
                 transform.position.x + Random.Range(-stats.MoveSpeed, stats.MoveSpeed),
-                -60f, 60f),
+                cam.left, cam.right),
             Mathf.Clamp(
                 transform.position.y + Random.Range(-stats.MoveSpeed, stats.MoveSpeed),
-                -33f, 33f)
+                cam.bottom, cam.top)
             );
     }
 }
