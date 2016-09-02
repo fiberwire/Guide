@@ -10,7 +10,7 @@ public class Chromosome {
         "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
     };
     private static readonly string[] words = new string[] {
-        "big", "fast", "fertile"
+        "big", "fast", "fertile", "healthy"
     };
 
     public List<Gene> genes {
