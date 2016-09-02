@@ -16,6 +16,7 @@ public class Genetics : MonoBehaviour {
     public float reproductionRate;
     public float size;
     public float initialMaturity;
+    public float healthRegen;
 
     //growth factors
     public float healthGrowthFactor;

@@ -16,6 +16,7 @@ public class Stats : MonoBehaviour {
     public float reproductionRate;
     public float size;
     public float initialMaturity; //represents the minimum starting growthFactor
+    public float healthRegen;
 
     //growth factors - represents the ratio between the minimum and maximum values based on age
     public float sizeGrowthFactor;
@@ -35,6 +36,7 @@ public class Stats : MonoBehaviour {
     public float MoveSpeed { get { return moveSpeed + genetics.moveSpeed; } }
     public float ReproductionRate { get { return reproductionRate + genetics.reproductionRate; } }
     public float Size { get { return (size + genetics.size) * (SizeGrowthFactor - SizeDecayFactor); } }
+    public float HealthRegen { get { return (healthRegen + genetics.healthRegen); } }
 
 
     public float HealthGrowthFactor {
