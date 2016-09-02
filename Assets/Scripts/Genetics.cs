@@ -9,8 +9,9 @@ public class Genetics : MonoBehaviour {
 
     //genetic bonuses
     public float maxHealth;
+    public float maxEnergy;
     public float longevity;
-    public float energyReq;
+    public float metabolicRate;
     public float moveSpeed;
     public float reproductionRate;
     public float size;
@@ -23,6 +24,8 @@ public class Genetics : MonoBehaviour {
     //decay factors
     public float healthDecayFactor;
     public float sizeDecayFactor;
+    public float energyGrowthFactor;
+    public float energyDecayFactor;
 
     // Use this for initialization
     void Start() {
@@ -40,8 +43,13 @@ public class Genetics : MonoBehaviour {
 
     //zero out genetic bonuses
     private void reset() {
+        maxHealth = 0;
+        maxEnergy = 0;
+        longevity = 0;
+        metabolicRate = 0;
         moveSpeed = 0;
         reproductionRate = 0;
         size = 0;
+        initialMaturity = 0;
     }
 }

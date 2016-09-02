@@ -7,8 +7,12 @@ using Assets.Scripts.Genes;
 public class Organism : MonoBehaviour {
 
     //stats
+    public float maxHealth;
     public float health;
+    public float maxEnergy;
     public float energy;
+
+    public bool initializedHealthAndEnergy = false;
 
     public Genome genome;
     public Stats stats;
