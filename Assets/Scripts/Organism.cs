@@ -6,67 +6,30 @@ using Assets.Scripts.Genes;
 
 public class Organism : MonoBehaviour {
 
+    //stats
+    public float maxHealth;
+    public float health;
+    public float maxEnergy;
+    public float energy;
+
+    public bool initializedHealthAndEnergy = false;
+
     public Genome genome;
+    public Stats stats;
+    public Genetics genetics;
     public delegate void GenomeChanged(Genome gen);
     public event GenomeChanged genomeChanged;
 
-    //base stats
-    public float baseMoveSpeed;
-    public float baseSplitChance;
-    public float baseSize;
     public int genomeCount;
-
-    //genetic bonuses
-    public float geneticMoveSpeed;
-    public float geneticSplitChance;
-    public float geneticSize;
-
-    //final stats properties
-    public float moveSpeed { get { return baseMoveSpeed + geneticMoveSpeed; } }
-    public float splitChance { get { return baseSplitChance + geneticSplitChance; } }
-    public float size { get { return baseSize + geneticSize; } }
 
     // Use this for initialization
     void Start() {
-        if (genome == null) genome = new Genome();
-        genomeChanged += applyGenetics;
+
+        if (genome == null) genome = new Genome(this);
+        genomeChanged += genetics.apply;
 
         StartCoroutine(move());
-        StartCoroutine(addGenes());
-        StartCoroutine(split());
-    }
-
-    IEnumerator addGenes() {
-        while (true) {
-            genomeCount = genome.Count;
-            addGene(new Fast(this));
-            addGene(new Fertile(this));
-            addGene(new Big(this));
-            yield return new WaitForSeconds(1f);
-        }
-    }
-
-    public void addGene(Gene g) {
-        genome.Add(g);
         genomeChanged(genome);
-    }
-
-    //apply genetic bonuses, whatever they may be
-    void applyGenetics(Genome gen) {
-        resetGenetics();
-
-        foreach (var g in gen.genes) {
-            g.apply();
-        }
-
-        transform.localScale = new Vector2(size, size);
-    }
-
-    //zero out genetic bonuses
-    private void resetGenetics() {
-        geneticMoveSpeed = 0;
-        geneticSplitChance = 0;
-        geneticSize = 0;
     }
 
     /*
@@ -104,8 +67,8 @@ public class Organism : MonoBehaviour {
 
     void MoveTowards(Vector2 target) {
         transform.position = new Vector2(
-                            Mathf.Lerp(transform.position.x, target.x, moveSpeed * Time.deltaTime * Random.Range(0.5f, 1.5f)),
-                            Mathf.Lerp(transform.position.y, target.y, moveSpeed * Time.deltaTime * Random.Range(0.5f, 1.5f))
+                            Mathf.Lerp(transform.position.x, target.x, stats.MoveSpeed * Time.deltaTime * Random.Range(0.5f, 1.5f)),
+                            Mathf.Lerp(transform.position.y, target.y, stats.MoveSpeed * Time.deltaTime * Random.Range(0.5f, 1.5f))
                         );
     }
 
@@ -119,28 +82,12 @@ public class Organism : MonoBehaviour {
     Vector2 randomTarget() {
         return new Vector2(
             Mathf.Clamp(
-                transform.position.x + Random.Range(-moveSpeed, moveSpeed),
+                transform.position.x + Random.Range(-stats.MoveSpeed, stats.MoveSpeed),
                 -60f, 60f),
             Mathf.Clamp(
-                transform.position.y + Random.Range(-moveSpeed, moveSpeed),
+                transform.position.y + Random.Range(-stats.MoveSpeed, stats.MoveSpeed),
                 -33f, 33f)
             );
-    }
-
-    IEnumerator split() {
-        yield return new WaitForSeconds(30);
-        while (true) {
-            float roll = Random.Range(0f, 1000f);
-            bool reproduce = roll <= splitChance;
-            while (!reproduce) {
-                roll = Random.Range(0f, 1000f);
-                reproduce = roll <= splitChance;
-
-                yield return new WaitForSeconds(1);
-            }
-            Instantiate(gameObject, transform.position, Quaternion.identity);
-            yield return new WaitForSeconds(30 - (30 * splitChance / 1000));
-        }
     }
 }
 
