@@ -49,4 +49,21 @@ public static class ExtensionMethods {
         int count = (seq.Length - seq.Replace(word, "").Length) / word.Length;
         return count;
     }
+
+    public static List<GameObject> ToList(this GameObject[] objs) {
+        var list = new List<GameObject>();
+        foreach(var o in objs) {
+            list.Add(o);
+        }
+        return list;
+    }
+
+    public static float Average(this List<Vector3> v) {
+        var sum = 0f;
+        v.Count.times( i => {
+            sum += (v[i].x + v[i].y) / 2;
+        });
+
+        return sum / v.Count;
+    }
 }
