@@ -15,7 +15,7 @@ public class Chromosome {
 
     public List<Gene> genes {
         get {
-            return newParseSequence(sequence);
+            return ParseSequence(sequence);
         }
     }
 
@@ -72,9 +72,9 @@ public class Chromosome {
 
             foreach (var index in indexes[0]) { //iterate through indexes of occurences in the sequence of the first letter of the word
                 //find how powerful the gene will be
-                var mag = findSubsequency(linkedIndexes.First, index);
+                var magnitude = findSubsequency(linkedIndexes.First, index);
 
-                g.Add(getGeneFromWord(w, mag));
+                g.Add(getGeneFromWord(w, magnitude));
             }
         }
         return g;
@@ -126,14 +126,14 @@ public class Chromosome {
     }
 
     //returns a gene that matches the word given, with the given magnitude
-    private Gene getGeneFromWord(string word, int mag) {
+    private Gene getGeneFromWord(string word, float magnitude) {
         switch (word) {
             case "big":
-                return new Big(org, mag);
+                return new Big(org, magnitude);
             case "fast":
-                return new Fast(org, mag);
+                return new Fast(org, magnitude);
             case "fertile":
-                return new Fertile(org, mag);
+                return new Fertile(org, magnitude);
             default: return null;
         }
     }
