@@ -8,7 +8,9 @@ public class Gene {
 }
 
 /*
- * To add a new gene, extend this class, and add a word in Chromosome.words
+ * To add a new gene, extend this class, 
+ * add a new word in Chromosome.words,
+ * add a case for it in Chromosome.getGeneFromWord
  */ 
 
 
