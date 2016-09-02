@@ -134,6 +134,8 @@ public class Chromosome {
                 return new Fast(org, magnitude);
             case "fertile":
                 return new Fertile(org, magnitude);
+            case "healthy":
+                return new Healthy(org, magnitude);
             default: return null;
         }
     }
