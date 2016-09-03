@@ -21,12 +21,13 @@ public class Genetics : MonoBehaviour {
     //growth factors
     public float healthGrowthFactor;
     public float sizeGrowthFactor;
-
+    public float energyGrowthFactor;
+    public float moveSpeedGrowthFactor;
     //decay factors
     public float healthDecayFactor;
     public float sizeDecayFactor;
-    public float energyGrowthFactor;
     public float energyDecayFactor;
+    public float moveSpeedDecayFactor;
 
     // Use this for initialization
     void Start() {
