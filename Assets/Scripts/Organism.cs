@@ -17,6 +17,7 @@ public class Organism : MonoBehaviour {
     public float energy;
 
     public bool initializedHealthAndEnergy = false;
+    public bool regenDisabled = false;
 
     public Genome genome;
     public Stats stats;
@@ -39,7 +40,25 @@ public class Organism : MonoBehaviour {
         genomeChanged += genetics.apply;
 
         StartCoroutine(move());
+        StartCoroutine(regenHealth());
         genomeChanged(genome);
+    }
+
+    IEnumerator regenHealth() {
+        while (true) {
+            if (regenDisabled) yield return null;
+
+            var regen = stats.HealthRegen;
+
+            if (regen <= 0) yield return null;
+
+            if (health + regen <= maxHealth) {
+                health += regen;
+                Debug.Log("Regenerated " + regen + " health.");
+            }
+
+            yield return new WaitForSeconds(1);
+        }
     }
 
     /*
