@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
-using System.Linq;
-using Assets.Scripts.Genes;
 
 public class Organism : MonoBehaviour {
+
+    public delegate void LifeCycleEvent();
+
+    public event LifeCycleEvent OnDeath;
+    public event LifeCycleEvent OnDamage;
 
     GuideCamera cam;
 
@@ -26,6 +28,11 @@ public class Organism : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+
+        OnDeath += () => {
+            Destroy(gameObject);
+        };
+        
         cam = Camera.main.GetComponent<GuideCamera>();
 
         if (genome == null) genome = new Genome(this);
@@ -91,6 +98,23 @@ public class Organism : MonoBehaviour {
                 transform.position.y + Random.Range(-stats.MoveSpeed, stats.MoveSpeed),
                 cam.bottom, cam.top)
             );
+    }
+
+    public void DoDamage(float damage){
+        if (!initializedHealthAndEnergy) return;
+
+        if (health > damage){ //if damage won't kill organism
+            health -= damage;
+            if (OnDamage != null) {
+                OnDamage();
+            }
+        }
+        else { //if damage will kill organism
+            health = 0;
+            if (OnDeath != null) {
+                OnDeath();
+            }
+        }
     }
 }
 

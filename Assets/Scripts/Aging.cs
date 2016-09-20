@@ -40,6 +40,8 @@ public class Aging : MonoBehaviour {
                     if (age / stats.Longevity > 2f / 3f) stage = LifeStage.Old;
                     break;
                 case LifeStage.Old:
+                    var damage = age / stats.Longevity * organism.maxHealth * 0.01f;
+                    organism.DoDamage(damage);
                     break;
             }
             yield return new WaitForSeconds(1);
