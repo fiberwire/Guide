@@ -21,12 +21,16 @@ public class Genetics : MonoBehaviour {
     //growth factors
     public float healthGrowthFactor;
     public float sizeGrowthFactor;
+    public float energyGrowthFactor;
+    public float moveSpeedGrowthFactor;
+    public float healthRegenGrowthFactor;
 
     //decay factors
     public float healthDecayFactor;
     public float sizeDecayFactor;
-    public float energyGrowthFactor;
     public float energyDecayFactor;
+    public float moveSpeedDecayFactor;
+    public float healthRegenDecayFactor;
 
     // Use this for initialization
     void Start() {
@@ -52,5 +56,6 @@ public class Genetics : MonoBehaviour {
         reproductionRate = 0;
         size = 0;
         initialMaturity = 0;
+        healthRegen = 0;
     }
 }

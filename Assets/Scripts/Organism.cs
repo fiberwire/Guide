@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
-using System.Linq;
-using Assets.Scripts.Genes;
 
 public class Organism : MonoBehaviour {
+
+    public delegate void LifeCycleEvent();
+
+    public event LifeCycleEvent OnDeath;
+    public event LifeCycleEvent OnDamage;
 
     GuideCamera cam;
 
@@ -15,6 +17,7 @@ public class Organism : MonoBehaviour {
     public float energy;
 
     public bool initializedHealthAndEnergy = false;
+    public bool regenDisabled = false;
 
     public Genome genome;
     public Stats stats;
@@ -26,13 +29,36 @@ public class Organism : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+
+        OnDeath += () => {
+            Destroy(gameObject);
+        };
+        
         cam = Camera.main.GetComponent<GuideCamera>();
 
         if (genome == null) genome = new Genome(this);
         genomeChanged += genetics.apply;
 
         StartCoroutine(move());
+        StartCoroutine(regenHealth());
         genomeChanged(genome);
+    }
+
+    IEnumerator regenHealth() {
+        while (true) {
+            if (regenDisabled) yield return null;
+
+            var regen = stats.HealthRegen;
+
+            if (regen <= 0) yield return null;
+
+            if (health + regen <= maxHealth) {
+                health += regen;
+                Debug.Log("Regenerated " + regen + " health.");
+            }
+
+            yield return new WaitForSeconds(1);
+        }
     }
 
     /*
@@ -91,6 +117,23 @@ public class Organism : MonoBehaviour {
                 transform.position.y + Random.Range(-stats.MoveSpeed, stats.MoveSpeed),
                 cam.bottom, cam.top)
             );
+    }
+
+    public void DoDamage(float damage){
+        if (!initializedHealthAndEnergy) return;
+
+        if (health > damage){ //if damage won't kill organism
+            health -= damage;
+            if (OnDamage != null) {
+                OnDamage();
+            }
+        }
+        else { //if damage will kill organism
+            health = 0;
+            if (OnDeath != null) {
+                OnDeath();
+            }
+        }
     }
 }
 
