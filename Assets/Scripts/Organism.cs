@@ -52,12 +52,14 @@ public class Organism : MonoBehaviour {
 
             if (regen <= 0) yield return null;
 
-            if (health + regen <= maxHealth) {
-                health += regen;
-                Debug.Log("Regenerated " + regen + " health.");
+            if (health + regen * Time.deltaTime <= maxHealth) {
+                health += regen * Time.deltaTime;
+            }
+            else {
+                health = maxHealth;
             }
 
-            yield return new WaitForSeconds(1);
+            yield return new WaitForEndOfFrame();
         }
     }
 
@@ -111,10 +113,10 @@ public class Organism : MonoBehaviour {
     Vector2 randomTarget() {
         return new Vector2(
             Mathf.Clamp(
-                transform.position.x + Random.Range(-stats.MoveSpeed, stats.MoveSpeed),
+                transform.position.x + Random.Range(-stats.MoveSpeed * stats.Size, stats.MoveSpeed * stats.Size),
                 cam.left, cam.right),
             Mathf.Clamp(
-                transform.position.y + Random.Range(-stats.MoveSpeed, stats.MoveSpeed),
+                transform.position.y + Random.Range(-stats.MoveSpeed * stats.Size, stats.MoveSpeed * stats.Size),
                 cam.bottom, cam.top)
             );
     }

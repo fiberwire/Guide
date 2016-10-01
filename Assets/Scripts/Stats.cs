@@ -72,7 +72,7 @@ public class Stats : MonoBehaviour {
     }
     public float SizeDecayFactor {
         get {
-            return Mathf.Lerp(0.1f, sizeDecayFactor + genetics.sizeDecayFactor, aging.decay);
+            return Mathf.Lerp(0.1f, sizeDecayFactor + genetics.sizeDecayFactor, aging.decay * 0.66f);
         }
     }
 
