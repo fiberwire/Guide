@@ -37,7 +37,7 @@ public class Aging : MonoBehaviour {
                     if (age / stats.Longevity > 1f / 3f) stage = LifeStage.Adult;
                     break;
                 case LifeStage.Adult:
-                    if (age / stats.Longevity > 2f / 3f) stage = LifeStage.Old;
+                    if (age / stats.Longevity > 4f / 5f) stage = LifeStage.Old;
                     break;
                 case LifeStage.Old:
                     var damage = (age / stats.Longevity) * (stats.MaxHealth * 0.1f);
@@ -62,7 +62,7 @@ public class Aging : MonoBehaviour {
                 case LifeStage.Adult:
                     break;
                 case LifeStage.Old:
-                    t = (age - (stats.Longevity * 2 / 3)) / (stats.Longevity / 3);
+                    t = (age - (stats.Longevity * 4 / 5)) / (stats.Longevity / 5);
                     sr.color = new Color(
                         Mathf.Lerp(adult.r, old.r, t),
                         Mathf.Lerp(adult.g, old.g, t),
@@ -83,7 +83,7 @@ public class Aging : MonoBehaviour {
             }
 
             if (stage == LifeStage.Old) {
-                decay = Mathf.Min((age - (stats.Longevity * 2f / 3f)) / (stats.Longevity / 3f), 0.5f);
+                decay = Mathf.Min((age - (stats.Longevity * 2f / 3f)) / (stats.Longevity / 3f), 0.33f);
             } else {
                 decay = 0f;
             }
