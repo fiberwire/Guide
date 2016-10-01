@@ -52,12 +52,15 @@ public class Organism : MonoBehaviour {
 
             if (regen <= 0) yield return null;
 
-            if (health + regen <= maxHealth) {
-                health += regen;
-                Debug.Log("Regenerated " + regen + " health.");
+            if (health + regen * Time.deltaTime <= maxHealth) {
+                health += regen * Time.deltaTime;
+                Debug.Log("Regenerated " + regen * Time.deltaTime + " health.");
+            }
+            else {
+                health = maxHealth;
             }
 
-            yield return new WaitForSeconds(1);
+            yield return new WaitForEndOfFrame();
         }
     }
 
